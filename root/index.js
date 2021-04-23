@@ -24,8 +24,15 @@ addBtn.addEventListener('click', () => {
                         <td>${email}</td>
                         <td>${gender}</td>
                         <td>${birthDate}</td>
+                        <td><input type="button" value="X" onclick="SomeDeleteRowFunction(this)"></td>
                     </tr>
                         `;
 
     table.innerHTML += tableContent;
 });
+
+function SomeDeleteRowFunction(o) {
+    //no clue what to put here?
+    var p=o.parentNode.parentNode;
+        p.parentNode.removeChild(p);
+   }
