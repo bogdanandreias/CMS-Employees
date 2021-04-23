@@ -1,7 +1,28 @@
-.form-content{
-    text-align: center;
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: sans-serif;
 }
 
-.formBox{
+th,td{
+    border: 1px solid rgb(179, 178, 178);
+    padding: 10px;
+}
+
+#data{
+    margin-bottom:10px
+}
+
+#data input , select{
+    padding:5px;
+    width: 150px;
     margin-top: 10px;
+}
+
+#data button{
+    margin-left: 70px;
+    padding: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
