@@ -26,3 +26,9 @@ th,td{
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
+#profilePic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}

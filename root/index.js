@@ -13,17 +13,30 @@ addBtn.addEventListener("click", () => {
   let lastName = lastNameInput.value;
   let email = emailInput.value;
   let gender = genderInput.value;
-  let birthDate = birthDateInput.value;
-  let photo = photoInput.value;
+  let birthDate = formatDate(birthDateInput.value);
+  let photo = document.getElementById("photo");
 
-  if(firstName == '' || lastName == '' || birthDate == '' || gender == '' || email == '' || photo.value == '') {
+  if (
+    firstName == "" ||
+    lastName == "" ||
+    birthDate == "" ||
+    gender == "" ||
+    email == "" ||
+    photo.value == ""
+  ) {
     alert("Fill in all fields!");
     return 0;
-}
+  }
 
+  if (checkImage(photo.value) == false) {
+    alert("Image format not accepted.");
+    return 0;
+  }
+  readURL(photo);
+  document.getElementById("photo").value = null;
   let tableContent = `
                     <tr>
-                        <td>${photo}</td>
+                        <td><img id="profilePic" src="#"></td>
                         <td>${firstName}</td>
                         <td>${lastName}</td>
                         <td>${email}</td>
@@ -32,10 +45,31 @@ addBtn.addEventListener("click", () => {
                         <td><input type="button" value="X" onclick="DeleteRow(this)"></td>
                     </tr>
                         `;
- 
-    table.innerHTML += tableContent;
-  
+
+  table.innerHTML += tableContent;
 });
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#profilePic').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+function formatDate(userDate) {
+    var d = new Date(userDate);
+    const monthNames = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"];
+    return d.getDay() + ' ' + monthNames[d.getMonth()] + ' ' + d.getFullYear();
+}
+
+function checkImage(picture) {
+    if(picture.indexOf('.jpg') >= 0 || picture.indexOf('.jpeg') >= 0 || picture.indexOf('.png') >= 0) return true;
+    return false;
+}
 
 function DeleteRow(o) {
   //no clue what to put here?
