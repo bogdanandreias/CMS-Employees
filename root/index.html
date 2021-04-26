@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CMS Employees</title>
     <link rel="stylesheet" href="formStyle.css">
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 </head>
 
 <body>
@@ -47,9 +48,9 @@
             <button id="addBtn">Click to Add</button>
         </div>
         <div class="searchWrapper">
-            <input type="text" name="searchBar" id="searchBar" placeholder="Search for an employee">
+            <input type="text" name="searchBar" id="searchBar" onkeyup="filterEmployees()" placeholder="Search for an employee">
         </div>
-        <table>
+        <table id="myTable">
             <tr>
                 <th>Profile img</th>
                 <th>First name</th>

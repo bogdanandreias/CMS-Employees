@@ -1,3 +1,4 @@
+
 let addBtn = document.querySelector("button");
 let table = document.querySelector("table");
 
@@ -8,7 +9,7 @@ let genderInput = document.querySelector("#gender");
 let birthDateInput = document.querySelector("#birthdate");
 let photoInput = document.querySelector("#photo");
 
-
+let employees = [];
 
 addBtn.addEventListener("click", () => {
   let firstName = firstNameInput.value;
@@ -79,7 +80,21 @@ function DeleteRow(o) {
   p.parentNode.removeChild(p);
 }
 
-const searchBar = document.getElementById('searchBar');
-searchBar.addEventListener('keyup', (e) =>{
-  console.log(e.target.value)
-})
+function filterEmployees() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("searchBar");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
