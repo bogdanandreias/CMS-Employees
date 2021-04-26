@@ -8,6 +8,8 @@ let genderInput = document.querySelector("#gender");
 let birthDateInput = document.querySelector("#birthdate");
 let photoInput = document.querySelector("#photo");
 
+
+
 addBtn.addEventListener("click", () => {
   let firstName = firstNameInput.value;
   let lastName = lastNameInput.value;
@@ -76,3 +78,8 @@ function DeleteRow(o) {
   var p = o.parentNode.parentNode;
   p.parentNode.removeChild(p);
 }
+
+const searchBar = document.getElementById('searchBar');
+searchBar.addEventListener('keyup', (e) =>{
+  console.log(e.target.value)
+})
