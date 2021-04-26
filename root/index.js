@@ -81,20 +81,24 @@ function DeleteRow(o) {
 }
 
 function filterEmployees() {
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("searchBar");
-  filter = input.value.toUpperCase();
+  filter = $("#filterSex").val();
   table = document.getElementById("myTable");
   tr = table.getElementsByTagName("tr");
+
+  input = document.getElementById("searchBar");
+  filterInput = input.value.toUpperCase();
+
   for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1];
-    if (td) {
+    td = tr[i].getElementsByTagName("td")[4];
+    td0 = tr[i].getElementsByTagName("td")[1];
+    if (td && td0) {
       txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      txtValue0 = td0.textContent || td0.innerText;
+      if (txtValue.indexOf(filter) > -1 && txtValue0.toUpperCase().indexOf(filterInput) > -1) {
         tr[i].style.display = "";
       } else {
         tr[i].style.display = "none";
       }
-    }       
+    }
   }
 }
