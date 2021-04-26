@@ -18,22 +18,22 @@
                 <label for="firstname">First name</label>
 
                 <div class="formBox">
-                    <input type="text" id="firstname" placeholder="First name">
+                    <input class="inputStyle" type="text" id="firstname" placeholder="First name">
                 </div>
                 <label for="lastname">Last name</label>
 
                 <div class="formBox">
-                    <input type="text" id="lastname" placeholder="Last name">
+                    <input class="inputStyle" type="text" id="lastname" placeholder="Last name">
                 </div>
                 <label for="email">Email</label>
 
                 <div class="formBox">
-                    <input type="text" id="email" placeholder="Email">
+                    <input class="inputStyle" type="text" id="email" placeholder="Email">
                 </div>
                 <label for="gender">Gender</label>
 
                 <div class="formBox">
-                    <select id="gender" name="gender">
+                    <select class="inputStyle" id="gender" name="gender">
                         <option value="male ">Male</option>
                         <option value="female">Female</option>
                         <option value="other">Other</option>
@@ -42,20 +42,20 @@
                 <label for="birthdate">Birth Date</label>
 
                 <div class="formBox">
-                    <input type="date" id="birthdate" placeholder="Birth Date">
+                    <input class="inputStyle" type="date" id="birthdate" placeholder="Birth Date">
                 </div>
                 <label for="photo">Photo:</label>
 
                 <div class="formBox">
-                    <input type="file" id="photo" name="photo">
+                    <input  type="file" id="photo" name="photo">
                 </div>
             </div>
         </form>
         <div class="formBox">
-            <button class="addEmployee"id="addBtn">Click to Add</button>
+            <button class="addEmployee" id="addBtn">Click to Add</button>
         </div>
         <div class="searchWrapper">
-            <input type="text" required name="searchBar" id="searchBar" onkeyup="filterEmployees()"
+            <input type="text" class="searchEmployee" name="searchBar" id="searchBar" onkeyup="filterEmployees()"
                 placeholder="Search for an employee">
         </div>
         <label for="gender">Gender</label>
@@ -64,7 +64,7 @@
             <option value="male ">male</option>
             <option value="female">female</option>
         </select>
-        <button id="sortDateButton" sort="up" onclick="sortTableByDate()">Sort by Date</button>
+        <button id="sortDateButton" class="addEmployee" sort="up" onclick="sortTableByDate()">Sort by Date</button>
         <table id="myTable">
             <tr>
                 <th>Profile img</th>
