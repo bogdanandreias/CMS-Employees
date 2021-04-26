@@ -11,41 +11,48 @@
 </head>
 
 <body>
+    <h1 class="title">CMS Employees</h1>
     <div class="container">
         <form class="form-content">
             <div id="data">
+                <label for="firstname">First name</label>
+
                 <div class="formBox">
-                    <label for="firstname">First name</label>
                     <input type="text" id="firstname" placeholder="First name">
                 </div>
+                <label for="lastname">Last name</label>
+
                 <div class="formBox">
-                    <label for="lastname">Last name</label>
                     <input type="text" id="lastname" placeholder="Last name">
                 </div>
+                <label for="email">Email</label>
+
                 <div class="formBox">
-                    <label for="email">Email</label>
                     <input type="text" id="email" placeholder="Email">
                 </div>
+                <label for="gender">Gender</label>
+
                 <div class="formBox">
-                    <label for="gender">Gender</label>
                     <select id="gender" name="gender">
                         <option value="male ">Male</option>
                         <option value="female">Female</option>
                         <option value="other">Other</option>
                     </select>
                 </div>
+                <label for="birthdate">Birth Date</label>
+
                 <div class="formBox">
-                    <label for="birthdate">Birth Date</label>
                     <input type="date" id="birthdate" placeholder="Birth Date">
                 </div>
+                <label for="photo">Photo:</label>
+
                 <div class="formBox">
-                    <label for="photo">Photo:</label>
                     <input type="file" id="photo" name="photo">
                 </div>
             </div>
         </form>
         <div class="formBox">
-            <button id="addBtn">Click to Add</button>
+            <button class="addEmployee"id="addBtn">Click to Add</button>
         </div>
         <div class="searchWrapper">
             <input type="text" required name="searchBar" id="searchBar" onkeyup="filterEmployees()"
@@ -57,6 +64,7 @@
             <option value="male ">male</option>
             <option value="female">female</option>
         </select>
+        <button id="sortDateButton" sort="up" onclick="sortTableByDate()">Sort by Date</button>
         <table id="myTable">
             <tr>
                 <th>Profile img</th>
