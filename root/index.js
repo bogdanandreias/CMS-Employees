@@ -1,83 +1,140 @@
+var employeesList = [];
 
-let addBtn = document.querySelector("button");
-let table = document.querySelector("table");
-
-let firstNameInput = document.querySelector("#firstname");
-let lastNameInput = document.querySelector("#lastname");
-let emailInput = document.querySelector("#email");
-let genderInput = document.querySelector("#gender");
-let birthDateInput = document.querySelector("#birthdate");
-let photoInput = document.querySelector("#photo");
-
-let employees = [];
-
-addBtn.addEventListener("click", () => {
-  let firstName = firstNameInput.value;
-  let lastName = lastNameInput.value;
-  let email = emailInput.value;
-  let gender = genderInput.value;
-  let birthDate = formatDate(birthDateInput.value);
-  let photo = document.getElementById("photo");
-
-  if (
-    firstName == "" ||
-    lastName == "" ||
-    birthDate == "" ||
-    gender == "" ||
-    email == "" ||
-    photo.value == ""
-  ) {
-    alert("Fill in all fields!");
-    return 0;
-  }
-
-  if (checkImage(photo.value) == false) {
-    alert("Image format not accepted.");
-    return 0;
-  }
-  readURL(photo);
-  document.getElementById("photo").value = null;
-  let tableContent = `
-                    <tr>
-                        <td><img id="profilePic" src="#"></td>
-                        <td>${firstName}</td>
-                        <td>${lastName}</td>
-                        <td>${email}</td>
-                        <td>${gender}</td>
-                        <td>${birthDate}</td>
-                        <td><input type="button" value="X" onclick="DeleteRow(this)"></td>
-                    </tr>
-                        `;
-
-  table.innerHTML += tableContent;
+jQuery(document).ready(function ($) {
+  $.ajax({
+    method: "GET",
+    url: "https://localhost:5001/employee/Employee",
+    success: function (data) {
+      employeesList = data;
+      console.log(employeesList);
+      loadEmployees(employeesList);
+    },
+    error: function (data) {
+      alert(`Failed to load employees list.`);
+    },
+  });
 });
 
-function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            $('#profilePic').attr('src', e.target.result);
-        }
-
-        reader.readAsDataURL(input.files[0]);
-    }
+function loadEmployees(employeesList) {
+  for (index = 0; index < employeesList.length; index++) {
+    appendRow(employeesList[index]);
+  }
 }
+
+function readURL(input, id) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      $("#image" + id).attr("src", e.target.result);
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function deleteUser(btn, idFromDb) {
+  var row = btn.parentNode.parentNode;
+  row.parentNode.removeChild(row);
+
+  console.log(idFromDb);
+
+  $.ajax({
+    method: "DELETE",
+    url: `https://localhost:5001/employee/Employee/${idFromDb}`,
+    success: function (data) {},
+    error: function (data) {
+      alert(`Failed to load employees list.`);
+    },
+  });
+}
+
 function formatDate(userDate) {
-    var d = new Date(userDate);
-    const monthNames = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"];
-    return d.getDay() + ' ' + monthNames[d.getMonth()] + ' ' + d.getFullYear();
+  var d = new Date(userDate);
+
+  const monthNames = [
+    "Ianuarie",
+    "Februarie",
+    "Martie",
+    "Aprilie",
+    "Mai",
+    "Iunie",
+    "Iulie",
+    "August",
+    "Septembrie",
+    "Octombrie",
+    "Noiembrie",
+    "Decembrie",
+  ];
+
+  return d.getDate() + " " + monthNames[d.getMonth()] + " " + d.getFullYear();
 }
 
-function checkImage(picture) {
-    if(picture.indexOf('.jpg') >= 0 || picture.indexOf('.jpeg') >= 0 || picture.indexOf('.png') >= 0) return true;
+function validateInput(newEmployee) {
+  if (
+    !newEmployee.firstName ||
+    !newEmployee.lastName ||
+    !newEmployee.email ||
+    !newEmployee.birthdate
+  ) {
     return false;
+  }
+  return true;
 }
 
-function DeleteRow(o) {
-  //no clue what to put here?
-  var p = o.parentNode.parentNode;
-  p.parentNode.removeChild(p);
+function appendRow(employee) {
+  let employeesTable = document.getElementById("myTable");
+  var id = employeesTable.getElementsByTagName("tr").length;
+  console.log(employee);
+
+  employeesTable.innerHTML +=
+    "</td><td><img id='image" +
+    id +
+    "' style='width: 20px; height: 20px' src='#'></img>" +
+    "</td><td>" +
+    employee.firstName +
+    "</td><td>" +
+    employee.lastName +
+    "</td><td>" +
+    employee.email +
+    "</td><td>" +
+    employee.gender +
+    "</td><td>" +
+    employee.birthdate +
+    "</td><td><button onClick='deleteUser(this, " +
+    employee.id +
+    ")'>X</button></td></tr>";
+
+  //readURL(employee.file, id);
+}
+
+function addEmployee() {
+  // Number of inputs to create
+  var newEmployee = new Object();
+  newEmployee.lastName = document.getElementById("lastname").value;
+  newEmployee.firstName = document.getElementById("firstname").value;
+  newEmployee.email = document.getElementById("email").value;
+  newEmployee.gender = document.getElementById("gender").value;
+  //newEmployee.file = document.getElementById("myfile");
+  newEmployee.birthdate = document.getElementById("birthdate").value;
+
+  if (!validateInput(newEmployee)) {
+    alert("Fields are required.");
+  }
+
+  $.ajax({
+    method: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(newEmployee),
+    url: "https://localhost:5001/employee/Employee",
+    success: function (data) {
+      appendRow(data);
+      employeesList.push(data);
+    },
+    error: function (data) {
+      alert(`Failed to load employees list.`);
+    },
+  });
 }
 
 function filterEmployees() {
@@ -94,7 +151,10 @@ function filterEmployees() {
     if (td && td0) {
       txtValue = td.textContent || td.innerText;
       txtValue0 = td0.textContent || td0.innerText;
-      if (txtValue.indexOf(filter) > -1 && txtValue0.toUpperCase().indexOf(filterInput) > -1) {
+      if (
+        txtValue.indexOf(filter) > -1 &&
+        txtValue0.toUpperCase().indexOf(filterInput) > -1
+      ) {
         tr[i].style.display = "";
       } else {
         tr[i].style.display = "none";
@@ -104,34 +164,37 @@ function filterEmployees() {
 }
 
 function sortTableByDate() {
-  var sortAttribute = document.getElementById("sortDateButton").getAttribute("sort");
-  if(sortAttribute == "up") document.getElementById("sortDateButton").setAttribute("sort", "down");
+  var sortAttribute = document
+    .getElementById("sortDateButton")
+    .getAttribute("sort");
+  if (sortAttribute == "up")
+    document.getElementById("sortDateButton").setAttribute("sort", "down");
   else document.getElementById("sortDateButton").setAttribute("sort", "up");
   var table, rows, switching, i, x, y, shouldSwitch;
   table = document.getElementById("myTable");
   switching = true;
   while (switching) {
-      switching = false;
-      rows = table.rows;
-      for (i = 1; i < (rows.length - 1); i++) {
-          shouldSwitch = false;
-          x = new Date(rows[i].getElementsByTagName("td")[5].innerText);
-          y = new Date(rows[i + 1].getElementsByTagName("td")[5].innerText);
-          if(sortAttribute == "up") {
-              if (x < y) {
-                  shouldSwitch = true;
-                  break;
-              }
-          } else if(sortAttribute == "down") {
-              if (x > y) {
-                  shouldSwitch = true;
-                  break;
-              }
-          }
+    switching = false;
+    rows = table.rows;
+    for (i = 1; i < rows.length - 1; i++) {
+      shouldSwitch = false;
+      x = new Date(rows[i].getElementsByTagName("td")[5].innerText);
+      y = new Date(rows[i + 1].getElementsByTagName("td")[5].innerText);
+      if (sortAttribute == "up") {
+        if (x < y) {
+          shouldSwitch = true;
+          break;
+        }
+      } else if (sortAttribute == "down") {
+        if (x > y) {
+          shouldSwitch = true;
+          break;
+        }
       }
-      if (shouldSwitch) {
-          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-          switching = true;
-      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
   }
 }

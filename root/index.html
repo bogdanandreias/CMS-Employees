@@ -47,12 +47,12 @@
                 <label for="photo">Photo:</label>
 
                 <div class="formBox">
-                    <input  type="file" id="photo" name="photo">
+                    <input  type="file" id="photo" name="photo" onchange="upload(this)">
                 </div>
             </div>
         </form>
         <div class="formBox">
-            <button class="addEmployee" id="addBtn">Click to Add</button>
+            <button class="addEmployee" id="addBtn" onclick="addEmployee()">Click to Add</button>
         </div>
         <div class="searchWrapper">
             <input type="text" class="searchEmployee" name="searchBar" id="searchBar" onkeyup="filterEmployees()"
@@ -73,16 +73,6 @@
                 <th>Email</th>
                 <th>Gender</th>
                 <th>Birth date</th>
-            </tr>
-
-            <tr>
-                <td>Magyar</td>
-                <td>Magyar </td>
-                <td>Magyar</td>
-                <td>Magyar</td>
-                <td>Magyar</td>
-                <td>Magyar</td>
-                <td><input type="button" value="X" onclick="DeleteRow(this)"></td>
             </tr>
         </table>
     </div>
